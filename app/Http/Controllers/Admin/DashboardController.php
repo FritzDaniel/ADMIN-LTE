@@ -1,0 +1,135 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Category;
+use App\Design;
+use App\Payment;
+use App\Settings;
+use App\Shops;
+use App\Testimoni;
+use App\Transaction;
+use App\User;
+use App\Variant;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
+class DashboardController extends Controller
+{
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    public function dashboard()
+    {
+        return view('admin.dashboard');
+    }
+
+    # Dropshipper
+    public function dropshipper()
+    {
+        $data = User::where('userRole','=','Dropshipper')->get();
+        return view('admin.dropshipper.index',compact('data'));
+    }
+
+    public function dropshipperDetail($id)
+    {
+        $data = User::where('id','=',$id)->first();
+        return view('admin.dropshipper.detail',compact('data'));
+    }
+
+    public function dropshipperTransaction($id)
+    {
+        $data = Payment::where('user_id','=',$id)->get();
+        return view('admin.dropshipper.transaction',compact('data'));
+    }
+
+    public function dropshipperPassword($id)
+    {
+        $data = User::where('id','=',$id)->first();
+        return view('admin.dropshipper.password',compact('data'));
+    }
+
+    public function passwordUpdate(Request $request,$id)
+    {
+        $this->validate($request,[
+            'password' => 'required',
+        ]);
+
+        $store = User::find($id);
+        $store->password = bcrypt($request['password']);
+        $store->update();
+
+        return redirect()->back()->with('message','Success update password user');
+    }
+
+    #Toko
+    public function toko()
+    {
+        $data = Shops::orderBy('created_at','DESC')->get();
+        return view('admin.toko.index',compact('data'));
+    }
+
+    # Supplier
+    public function supplier()
+    {
+        $data = User::where('userRole','=','Supplier')->get();
+        return view('admin.supplier.index',compact('data'));
+    }
+
+    # Withdraw
+    public function withdraw()
+    {
+        $data = User::where('userRole','=','Supplier')->get();
+        return view('admin.withdraw.index',compact('data'));
+    }
+
+    # Category
+    public function category()
+    {
+        $data = Category::orderBy('created_at','DESC')->get();
+        return view('admin.category.index',compact('data'));
+    }
+
+    # Variant
+    public function variant()
+    {
+        $data = Variant::orderBy('created_at','DESC')->get();
+        return view('admin.variant.index',compact('data'));
+    }
+
+    # Design
+    public function design()
+    {
+        $data = Design::orderBy('created_at','DESC')->get();
+        return view('admin.design.index',compact('data'));
+    }
+
+    # Testimony
+    public function testimony()
+    {
+        $data = Testimoni::orderBy('created_at','DESC')->get();
+        return view('admin.testimony.index',compact('data'));
+    }
+
+    # Logs
+    public function logs()
+    {
+        $data = Design::orderBy('created_at','DESC')->get();
+        return view('admin.log.index',compact('data'));
+    }
+
+    # Mutation
+    public function mutation()
+    {
+        return view('admin.mutation.index');
+    }
+
+    # Settings
+    public function settings()
+    {
+        $data = Settings::all();
+        return view('admin.setting.index',compact('data'));
+    }
+}

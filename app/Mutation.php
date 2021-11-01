@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Mutation extends Model
+{
+
+    protected $table = 'mutation';
+    protected $primaryKey ='id';
+    protected $fillable = [
+        'bank_id',
+        'account_number',
+        'bank_type',
+        'date',
+        'amount',
+        'description',
+        'type',
+        'balance',
+        'kode_unik',
+        'id_order',
+        'user_id'
+    ];
+    public $timestamps = true;
+}

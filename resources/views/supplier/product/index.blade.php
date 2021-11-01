@@ -1,7 +1,7 @@
 @extends('supplier.layouts.app')
 
 @section('title')
-    PVOT-Digital | Admin Dashboard
+    PVOT-Digital | Supplier Dashboard
 @endsection
 
 @section('css')
@@ -34,7 +34,49 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        Start creating your amazing application!
+                        <a href="{{ route('supplier.product.create') }}" class="btn btn-primary">
+                            <i class="fa fa-plus-circle"></i> Add Product
+                        </a>
+                        <div class="dataTables_wrapper dt-bootstrap4">
+                            <table id="datatable" class="table table-bordered table-hover dataTable dtr-inline">
+                                <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Product Name</th>
+                                    <th>Product Desc</th>
+                                    <th>Created Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @if($data->isEmpty())
+                                    <tr>
+                                        <td>No Data</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                @else
+                                    @foreach($data as $key => $dt)
+                                        <tr>
+                                            <td>{{ $key+1 }}.</td>
+                                            <td>{{ $dt->name }}</td>
+                                            <td>
+                                                {{--<img src="{{ asset($dt->logo) }}" alt="" style="width: 50px; height: 50px;">--}}
+                                            </td>
+                                            <td>{{ \Carbon\Carbon::parse($dt->created_at)->format('d-m-Y H:i:s') }}</td>
+                                            <td>
+                                                <a href="#" class="btn btn-primary">
+                                                    <i class="fa fa-edit"></i> Details
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">

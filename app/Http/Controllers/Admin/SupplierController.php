@@ -1,36 +1,35 @@
 <?php
 
-namespace App\Http\Controllers\Api\Admin;
+namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Api\BaseController;
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Models\Wallet;
-use App\Models\Withdraw;
+use App\User;
+use App\Wallet;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Validator;
 
-class SupplierController extends BaseController
+class SupplierController extends Controller
 {
-    public function storeSupplier(Request $request)
+    public function create()
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'phone' => 'required',
-            'password' => 'required'
-        ]);
+        return view('admin.supplier.create');
+    }
 
-        if($validator->fails()){
-            return $this->sendError($validator->errors(),'Error',400);
-        }
+    public function store(Request $request)
+    {
+        $this->validate($request,[
+            'name' => 'required',
+            'email' => 'required|unique:users',
+            'password' => 'required',
+            'address' => 'required',
+            'phone' => 'required',
+        ]);
 
         if ($request->hasFile('profilePicture')) {
             if ($request->file('profilePicture')->isValid()) {
                 $name = Carbon::now()->timestamp . '.' . $request->file('profilePicture')->getClientOriginalExtension();
-                $store_path = 'public/fotoUser';
-                $request->file('profilePicture')->storeAs($store_path, $name);
+                $store_path = 'storage/fotoUser';
+                $request->file('profilePicture')->move($store_path, $name);
             }
         }
 
@@ -39,7 +38,7 @@ class SupplierController extends BaseController
         $store->email = $request['email'];
         $store->email_verified_at = Carbon::now();
         $store->password = bcrypt($request['password']);
-        $store->roles = "Supplier";
+        $store->userRole = "Supplier";
         if($request['phone'])
         {
             $phoneValidation = substr($request['phone'], 0,1);
@@ -54,9 +53,9 @@ class SupplierController extends BaseController
         }
         $store->profilePicture = isset($name) ? '/storage/fotoUser/'.$name : '/storage/img/dummyUser.jpg';
         $store->country = $request['country'];
-        $store->alamat = $request['alamat'];
-        $store->provinsi = $request['provinsi'];
-        $store->kodepos = $request['kodepos'];
+        $store->alamat = $request['address'];
+        $store->provinsi = $request['province'];
+        $store->kodepos = $request['postalCode'];
         $store->save();
 
         $store->assignRole('Supplier');
@@ -67,7 +66,7 @@ class SupplierController extends BaseController
         ];
         Wallet::create($dataWallet);
 
-        return $this->sendResponse($store,'Store Supplier Success.');
+        return redirect()->route('admin.supplier')->with('message','Supplier is successfully created');
     }
 
     public function updateSupplier(Request $request,$id)

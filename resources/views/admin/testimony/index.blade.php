@@ -22,6 +22,13 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
+                @if (session('message'))
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h4><i class="icon fa fa-check"></i> Success!</h4>
+                        {{ session('message') }}
+                    </div>
+                @endif
                 <!-- Default box -->
                 <div class="card">
                     <div class="card-header">
@@ -34,7 +41,61 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        Start creating your amazing application!
+                        <a href="{{ route('admin.testimony.create') }}" class="btn btn-primary">
+                            <i class="fa fa-plus-circle"></i> Add Testimony
+                        </a>
+                        <div class="dataTables_wrapper dt-bootstrap4">
+                            <table id="datatable" class="table table-bordered table-hover dataTable dtr-inline">
+                                <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Photo</th>
+                                    <th>Name</th>
+                                    <th>Age</th>
+                                    <th>Testimony</th>
+                                    <th>Company</th>
+                                    <th>Created Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @if($data->isEmpty())
+                                    <tr>
+                                        <td>No Data</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                @else
+                                    @foreach($data as $key => $dt)
+                                        <tr>
+                                            <td>{{ $key+1 }}.</td>
+                                            <td>
+                                                <img src="{{ asset($dt->photo) }}" alt="" style="width: 50px; height: 50px;">
+                                            </td>
+                                            <td>{{ $dt->name }}</td>
+                                            <td>{{ $dt->age }}</td>
+                                            <td>{{ $dt->testimoni }}</td>
+                                            <td>{{ $dt->company }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($dt->created_at)->format('d-m-Y H:i:s') }}</td>
+                                            <td>
+                                                <a href="#" class="btn btn-primary">
+                                                    <i class="fa fa-edit"></i> Edit
+                                                </a>
+                                                <a href="#" class="btn btn-danger">
+                                                    <i class="fa fa-edit"></i> Delete
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
@@ -50,5 +111,19 @@
 @endsection
 
 @section('js')
+
+    <script>
+        $(function () {
+            $('#datatable').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": true,
+                "responsive": true,
+            });
+        });
+    </script>
 
 @endsection

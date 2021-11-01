@@ -67,15 +67,17 @@
                                         <tr>
                                             <td>{{ $key+1 }}.</td>
                                             <td>{{ $dt->name }}</td>
-                                            <td></td>
+                                            <td>
+                                                <img src="{{ asset($dt->logo) }}" alt="" style="width: 50px; height: 50px;">
+                                            </td>
                                             <td>{{ \Carbon\Carbon::parse($dt->created_at)->format('d-m-Y H:i:s') }}</td>
                                             <td>
-                                                <a href="#" class="btn btn-primary">
+                                                <a href="{{ route('admin.category.edit',$dt->id) }}" class="btn btn-primary">
                                                     <i class="fa fa-edit"></i> Edit
                                                 </a>
-                                                <a href="#" class="btn btn-danger">
+                                                <!--<a href="{{ route('admin.category.delete',$dt->id) }}" class="btn btn-danger">
                                                     <i class="fa fa-trash"></i> Delete
-                                                </a>
+                                                </a>-->
                                             </td>
                                         </tr>
                                     @endforeach
@@ -98,5 +100,19 @@
 @endsection
 
 @section('js')
+
+    <script>
+        $(function () {
+            $('#datatable').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": true,
+                "responsive": true,
+            });
+        });
+    </script>
 
 @endsection

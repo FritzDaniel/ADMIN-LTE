@@ -34,7 +34,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <a href="#" class="btn btn-primary"><i class="fa fa-user-plus"></i> Add Supplier</a>
+                        <a href="{{ route('admin.supplier.create') }}" class="btn btn-primary"><i class="fa fa-user-plus"></i> Add Supplier</a>
                         <div class="dataTables_wrapper dt-bootstrap4">
                             <table id="datatable" class="table table-bordered table-hover dataTable dtr-inline">
                                 <thead>
@@ -67,8 +67,8 @@
                                             <td>{{ $dt->name }}</td>
                                             <td>{{ $dt->email }}</td>
                                             <td>{{ $dt->phone }}</td>
-                                            <td>{{ $dt->address ? $dt->address : '-' }}</td>
-                                            <td>{{ $dt->EWallet->balance }}</td>
+                                            <td>{{ $dt->alamat ? $dt->alamat : '-' }}</td>
+                                            <td>{{ $dt->EWallet->balance !== 0 ? 'Rp. '.number_format($dt->EWallet->balance) : 0 }}</td>
                                             <td>{{ \Carbon\Carbon::parse($dt->created_at)->format('d-m-Y H:i:s') }}</td>
                                             <td>
                                                 <a href="{{ route('admin.dropshipper.details',$dt->id) }}" class="btn btn-primary">

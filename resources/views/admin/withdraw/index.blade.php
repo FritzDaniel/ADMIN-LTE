@@ -34,7 +34,53 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        Start creating your amazing application!
+                        <div class="dataTables_wrapper dt-bootstrap4">
+                            <table id="datatable" class="table table-bordered table-hover dataTable dtr-inline">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Supplier</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Withdraw Amount</th>
+                                    <th>Created Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @if($data->isEmpty())
+                                    <tr>
+                                        <td>No Data</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                @else
+                                    @foreach($data as $key => $dt)
+                                        <tr>
+                                            <td>{{ $dt->id }}.</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{ \Carbon\Carbon::parse($dt->created_at)->format('d-m-Y H:i:s') }}</td>
+                                            <td>
+                                                <a href="#" class="btn btn-primary">
+                                                    <i class="fa fa-user"></i> Details
+                                                </a>
+                                                <a href="#" class="btn btn-primary">
+                                                    <i class="fa fa-user"></i> Kirim Bukti Transfer
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">

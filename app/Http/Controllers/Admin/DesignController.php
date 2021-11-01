@@ -1,43 +1,44 @@
 <?php
 
-namespace App\Http\Controllers\Api\Admin;
+namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Api\BaseController;
-use App\Models\Design;
-use App\Models\DesignChild;
+use App\Design;
+use App\DesignChild;
+use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Validator;
 
-class DesignController extends BaseController
+class DesignController extends Controller
 {
-    public function listDesign()
+    public function createDesign()
     {
-        $data = Design::orderBy('created_at','DESC')->get();
-        return $this->sendResponse($data,'List Design');
+        return view('admin.design.create');
     }
 
-    public function listSubDesign()
+    public function subDesign($id)
     {
-        $data = DesignChild::with('DesignParent')->orderBy('created_at','DESC')->get();
-        return $this->sendResponse($data,'List Design');
+        $master = Design::find($id);
+        $data = DesignChild::where('design_id','=',$id)->get();
+        return view('admin.design.subDesign.index',compact('master','data'));
+    }
+
+    public function createSubDesign($id)
+    {
+        $master = Design::find($id);
+        return view('admin.design.subDesign.create',compact('master'));
     }
 
     public function storeDesign(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'designName' => 'required',
+        $this->validate($request,[
+            'designName' => 'required'
         ]);
-
-        if($validator->fails()) {
-            return $this->sendError($validator->errors(),'Error input data.',400);
-        }
 
         if ($request->hasFile('designImage')){
             if ($request->file('designImage')->isValid()){
                 $name = Carbon::now()->timestamp.'.'.$request->file('designImage')->getClientOriginalExtension();
-                $store_path = 'public/fotoDesign';
-                $request->file('designImage')->storeAs($store_path,$name);
+                $store_path = 'storage/fotoDesign';
+                $request->file('designImage')->move($store_path,$name);
             }
         }
 
@@ -46,33 +47,29 @@ class DesignController extends BaseController
         $store->designImage = isset($name) ? "/storage/fotoDesign/".$name : '/storage/img/dummy.jpg';
         $store->save();
 
-        return $this->sendResponse($store,'Create design success.',200);
+        return redirect()->route('admin.design')->with('message','Design is successfully created');
     }
 
-    public function storeSubDesign(Request $request)
+    public function storeSubDesign(Request $request,$id)
     {
-        $validator = Validator::make($request->all(), [
-            'designName' => 'required',
+        $this->validate($request,[
+            'designName' => 'required'
         ]);
-
-        if($validator->fails()) {
-            return $this->sendError($validator->errors(),'Error input data.',400);
-        }
 
         if ($request->hasFile('designImage')){
             if ($request->file('designImage')->isValid()){
                 $name = Carbon::now()->timestamp.'.'.$request->file('designImage')->getClientOriginalExtension();
-                $store_path = 'public/fotoSubDesign';
-                $request->file('designImage')->storeAs($store_path,$name);
+                $store_path = 'storage/fotoSubDesign';
+                $request->file('designImage')->move($store_path,$name);
             }
         }
 
         $store = new DesignChild();
-        $store->design_id = $request['design_id'];
+        $store->design_id = $id;
         $store->designName = $request['designName'];
         $store->designImage = isset($name) ? "/storage/fotoSubDesign/".$name : '/storage/img/dummy.jpg';
         $store->save();
 
-        return $this->sendResponse($store,'Create subdesign success.',200);
+        return redirect()->route('admin.subDesign',$id)->with('message','Design is successfully created');
     }
 }

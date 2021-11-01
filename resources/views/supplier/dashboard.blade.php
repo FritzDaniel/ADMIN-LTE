@@ -24,7 +24,7 @@
                 <!-- small card -->
                 <div class="small-box bg-success">
                     <div class="inner">
-                        <h3><sup style="font-size: 20px">Rp</sup> {{ number_format(500000) }}</h3>
+                        <h3><sup style="font-size: 20px">Rp</sup> {{ number_format(Auth::user()->EWallet->balance) }}</h3>
 
                         <p>E-Wallet</p>
                     </div>

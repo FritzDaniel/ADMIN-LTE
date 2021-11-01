@@ -20,19 +20,19 @@ class CategoryController extends Controller
             'name' => 'required'
         ]);
 
-//        if ($request->hasFile('logo')){
-//            if ($request->file('logo')->isValid()){
-//                $name = Carbon::now()->timestamp.'.'.$request->file('logo')->getClientOriginalExtension();
-//                $store_path = 'https://api.pvotdigital.com/app/storage/fotoKategori';
-//                $request->file('logo')->move($store_path,$name);
-//            }
-//        }
+        if ($request->hasFile('logo')){
+            if ($request->file('logo')->isValid()){
+                $name = Carbon::now()->timestamp.'.'.$request->file('logo')->getClientOriginalExtension();
+                $store_path = 'storage/fotoKategori';
+                $request->file('logo')->move($store_path,$name);
+            }
+        }
 
-//        $store = [
-//            'name' => $request['name'],
-//            'logo' => isset($name) ? "/storage/fotoKategori/".$name : '/storage/img/dummy.jpg',
-//        ];
-//        Category::create($store);
+        $store = [
+            'name' => $request['name'],
+            'logo' => isset($name) ? "/storage/fotoKategori/".$name : '/storage/img/dummy.jpg',
+        ];
+        Category::create($store);
 
         return redirect()->route('admin.category')->with('message','Category is successfully created');
     }
@@ -40,7 +40,7 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $data = Category::find($id);
-        return view('admin.category.create',compact('data'));
+        return view('admin.category.edit',compact('data'));
     }
 
     public function update(Request $request,$id)
@@ -52,24 +52,33 @@ class CategoryController extends Controller
         if ($request->hasFile('logo')){
             if ($request->file('logo')->isValid()){
                 $name = Carbon::now()->timestamp.'.'.$request->file('logo')->getClientOriginalExtension();
-                $store_path = 'public/fotoKategori';
-                $request->file('logo')->storeAs($store_path,$name);
+                $store_path = 'storage/fotoKategori';
+                $request->file('logo')->move($store_path,$name);
             }
         }
 
         $data = Category::where('id','=',$id)->first();
-        $data->name = $request['name'];
-        $data->logo = isset($name) ? "/storage/fotoKategori/".$name : '/storage/img/dummy.jpg';
+        if($request['name'])
+        {
+            $data->name = $request['name'];
+        }
+        if ($request->hasFile('logo')) {
+            $images_path = public_path().$data->logo;
+            unlink($images_path);
+            $data->logo = isset($name) ? "/storage/fotoKategori/" . $name : '/storage/img/dummy.jpg';
+        }
         $data->update();
 
-        return $this->sendResponse($data,'Success',200);
+        return redirect()->route('admin.category')->with('message','Category is successfully updated');
     }
 
     public function delete($id)
     {
         $data = Category::where('id','=',$id)->first();
+        $images_path = public_path().$data->logo;
+        unlink($images_path);
         $data->delete();
 
-        return $this->sendResponse($data,'Success');
+        return redirect()->route('admin.category')->with('message','Category is successfully deleted');
     }
 }

@@ -40,8 +40,8 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>User</th>
-                                    <th>Email</th>
-                                    <th>Phone</th>
+                                    <th>Shop Name</th>
+                                    <th>Status</th>
                                     <th>Created Date</th>
                                     <th>Action</th>
                                 </tr>

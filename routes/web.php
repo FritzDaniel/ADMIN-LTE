@@ -29,6 +29,11 @@ Route::group(['namespace' => 'Admin'], function()
     Route::get('/admin/toko','DashboardController@toko')->name('admin.toko');
     # Supplier
     Route::get('/admin/supplier','DashboardController@supplier')->name('admin.supplier');
+    Route::get('/admin/supplier/create','SupplierController@create')->name('admin.supplier.create');
+    Route::get('/admin/supplier/edit/{id}','SupplierController@edit')->name('admin.supplier.edit');
+    Route::post('/admin/supplier/store','SupplierController@store')->name('admin.supplier.store');
+    Route::post('/admin/supplier/update/{id}','SupplierController@update')->name('admin.supplier.update');
+    Route::get('/admin/supplier/delete/{id}','SupplierController@delete')->name('admin.supplier.delete');
     # Withdraws
     Route::get('/admin/withdraw','DashboardController@withdraw')->name('admin.withdraw');
     # Category
@@ -40,8 +45,25 @@ Route::group(['namespace' => 'Admin'], function()
     Route::get('/admin/category/delete/{id}','CategoryController@delete')->name('admin.category.delete');
     # Design
     Route::get('/admin/design','DashboardController@design')->name('admin.design');
+    Route::get('/admin/design/create','DesignController@createDesign')->name('admin.design.create');
+    Route::get('/admin/design/edit/{id}','DesignController@edit')->name('admin.design.edit');
+    Route::post('/admin/design/store','DesignController@storeDesign')->name('admin.design.store');
+    Route::post('/admin/design/update/{id}','DesignController@update')->name('admin.design.update');
+    Route::get('/admin/design/delete/{id}','DesignController@delete')->name('admin.design.delete');
+    # Sub Design
+    Route::get('/admin/subDesign/{id}','DesignController@subDesign')->name('admin.subDesign');
+    Route::get('/admin/subDesign/create/{id}','DesignController@createSubDesign')->name('admin.subDesign.create');
+    Route::get('/admin/subDesign/edit/{id}','DesignController@editSubDesign')->name('admin.subDesign.edit');
+    Route::post('/admin/subDesign/store/{id}','DesignController@storeSubDesign')->name('admin.subDesign.store');
+    Route::post('/admin/subDesign/update/{id}','DesignController@updateSubDesign')->name('admin.subDesign.update');
+    Route::get('/admin/subDesign/delete/{id}','DesignController@deleteSubDesign')->name('admin.subDesign.delete');
     # Testimony
     Route::get('/admin/testimony','DashboardController@testimony')->name('admin.testimony');
+    Route::get('/admin/testimony/create','TestimoniController@create')->name('admin.testimony.create');
+    Route::get('/admin/testimony/edit/{id}','TestimoniController@edit')->name('admin.testimony.edit');
+    Route::post('/admin/testimony/store','TestimoniController@store')->name('admin.testimony.store');
+    Route::post('/admin/testimony/update/{id}','TestimoniController@update')->name('admin.testimony.update');
+    Route::get('/admin/testimony/delete/{id}','TestimoniController@delete')->name('admin.testimony.delete');
     # Variant
     Route::get('/admin/variant','DashboardController@variant')->name('admin.variant');
     Route::get('/admin/variant/create','VariantController@variantCreate')->name('admin.variant.create');
@@ -64,6 +86,7 @@ Route::group(['namespace' => 'Suppliers'], function()
 
     # Product
     Route::get('/supplier/product','DashboardController@product')->name('supplier.product');
+    Route::get('/supplier/product/create','ProductController@create')->name('supplier.product.create');
 
     # Order
     Route::get('/supplier/orders','DashboardController@orders')->name('supplier.orders');

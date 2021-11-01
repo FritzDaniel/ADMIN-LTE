@@ -11,6 +11,7 @@ use App\Testimoni;
 use App\Transaction;
 use App\User;
 use App\Variant;
+use App\Withdraw;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -81,7 +82,7 @@ class DashboardController extends Controller
     # Withdraw
     public function withdraw()
     {
-        $data = User::where('userRole','=','Supplier')->get();
+        $data = Withdraw::orderBy('created_at','DESC')->get();
         return view('admin.withdraw.index',compact('data'));
     }
 

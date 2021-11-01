@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Api\Suppliers;
+namespace App\Http\Controllers\Suppliers;
 
-use App\Http\Controllers\Api\BaseController;
 use App\Http\Controllers\Controller;
 use App\Models\Payment;
 use App\Models\Product;
@@ -15,9 +14,8 @@ use App\Models\Wallet;
 use App\Models\Withdraw;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Validator;
 
-class SupplierController extends BaseController
+class SupplierController extends Controller
 {
     public function myProduct(Request $request)
     {

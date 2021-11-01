@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Variant;
+use App\Models\Variant;
 use Illuminate\Http\Request;
 
 class VariantController extends Controller

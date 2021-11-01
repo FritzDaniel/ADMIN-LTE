@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\User;
-use App\Wallet;
+use App\Models\User;
+use App\Models\Wallet;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 

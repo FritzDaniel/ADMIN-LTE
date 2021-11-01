@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Category;
-use App\Design;
-use App\Payment;
-use App\Settings;
-use App\Shops;
-use App\Testimoni;
-use App\Transaction;
-use App\User;
-use App\Variant;
-use App\Withdraw;
+use App\Models\Category;
+use App\Models\Design;
+use App\Models\Payment;
+use App\Models\Settings;
+use App\Models\Shops;
+use App\Models\Testimoni;
+use App\Models\Transaction;
+use App\Models\User;
+use App\Models\Variant;
+use App\Models\Withdraw;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api\Admin;
+namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Api\BaseController;
+use App\Http\Controllers\Controller;
 use Spatie\Activitylog\Models\Activity;
 
-class LogsController extends BaseController
+class LogsController extends Controller
 {
     public function logs()
     {

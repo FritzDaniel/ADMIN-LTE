@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api\Admin;
+namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Api\BaseController;
 use App\Http\Controllers\Controller;
 use App\Models\Shops;
 use Illuminate\Http\Request;
 
-class TokoController extends BaseController
+class TokoController extends Controller
 {
     public function getDetailToko($id)
     {

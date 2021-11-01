@@ -1,17 +1,18 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class Settings extends Model
 {
 
-    protected $table = 'category';
+    protected $table = 'settings';
     protected $primaryKey ='id';
     protected $fillable = [
         'name',
-        'logo'
+        'value',
+        'tipe'
     ];
     public $timestamps = true;
 }

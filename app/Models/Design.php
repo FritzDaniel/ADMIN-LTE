@@ -1,18 +1,17 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Settings extends Model
+class Design extends Model
 {
 
-    protected $table = 'settings';
+    protected $table = 'design';
     protected $primaryKey ='id';
     protected $fillable = [
-        'name',
-        'value',
-        'tipe'
+        'designName',
+        'designImage'
     ];
     public $timestamps = true;
 }

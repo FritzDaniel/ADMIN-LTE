@@ -1,17 +1,18 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Design extends Model
+class ShopPicture extends Model
 {
 
-    protected $table = 'design';
+    protected $table = 'shops';
     protected $primaryKey ='id';
     protected $fillable = [
-        'designName',
-        'designImage'
+        'shop_id',
+        'fotoToko',
+        'fotoHeaderToko',
     ];
     public $timestamps = true;
 }

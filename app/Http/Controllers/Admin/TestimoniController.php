@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Testimoni;
+use App\Models\Testimoni;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
